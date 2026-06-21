@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUNCAR | منظومة الضمان والتتبع الرقمي</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="cyber-nav">
+        <div class="nav-brand">TUN<span>CAR</span></div>
+        <div class="nav-links">
+            <a href="index.html">الرئيسية</a>
+            <a href="catalog.html">المتجر الرقمي</a>
+            <a href="checkout.html" class="active-nav">السلة والضمان</a>
+        </div>
+        <button class="btn-cyber" style="width:auto; padding:5px 15px;" onclick="toggleLanguage()">EN / ع</button>
+    </nav>
+
+    <!-- التايم لاين الرقمي المشترك للمراحل الخمس -->
+    <div class="timeline-container">
+        <div class="timeline-line"></div>
+        <div class="timeline-line-progress" id="timelineProgress"></div>
+        
+        <div class="timeline-step active" id="step1"><div class="step-node">1</div><div class="step-label" id="tl-step1">المراجعة</div></div>
+        <div class="timeline-step" id="step2"><div class="step-node">2</div><div class="step-label" id="tl-step2">العنوان</div></div>
+        <div class="timeline-step" id="step3"><div class="step-node">3</div><div class="step-label" id="tl-step3">الدفع</div></div>
+        <div class="timeline-step" id="step4"><div class="step-node">4</div><div class="step-label" id="tl-step4">التقرير والتحقق</div></div>
+        <div class="timeline-step" id="step5"><div class="step-node">5</div><div class="step-label" id="tl-step5">الضمان النشط</div></div>
+    </div>
+
+    <!-- ================= المرحلة 1: مراجعة القطع وتأكيدها ================= -->
+    <div class="checkout-step-panel active-panel" id="panel-validation">
+        <div class="cart-layout">
+            <div class="main-card">
+                <h3 id="lbl-validation-title">🔍 مراجعة القطع وتأكيد التتبع الداخلي</h3>
+                <div id="validationItemsContainer"></div>
+                <button class="btn-cyber" style="background:var(--cyber-green); margin-top:20px;" onclick="nextToAddress()" id="btn-to-address">تأكيد المنتجات والانتقال للعنوان ◀</button>
+            </div>
+            <div class="side-card" id="miniCartSummary1"></div>
+        </div>
+    </div>
+
+    <!-- ================= المرحلة 2: اختيار العنوان ================= -->
+    <div class="checkout-step-panel" id="panel-address">
+        <div class="cart-layout">
+            <div class="main-card">
+                <h3 id="lbl-address-title">📍 تحديد عنوان شحن الشحنة</h3>
+                <div class="address-grid" id="savedAddressesGrid"></div>
+                <div id="newAddressFormContainer" style="display:none; border-top: 1px dashed var(--border-blue); padding-top:15px; margin-top:15px;">
+                    <div class="form-group">
+                        <label id="lbl-new-addr-input">اكتب العنوان الجديد بالتفصيل هنا</label>
+                        <input type="text" id="customAddressInput" placeholder="مدينة تونس، نهج الحرية...">
+                    </div>
+                </div>
+                <div class="profile-redirect-note">
+                    <span id="lbl-profile-note">⚠️ يمكنك إدارة العناوين الدائمة من ملفك الشخصي فقط.</span>
+                    <span class="profile-link" onclick="alert('الانتقال لصفحة البروفايل...')">تعديل ⚙️</span>
+                </div>
+                <div style="display:flex; gap:10px; margin-top:20px;">
+                    <button class="btn-cyber" style="background:#334155; color:#fff;" onclick="prevToValidation()">◀ السابق</button>
+                    <button class="btn-cyber" onclick="submitAddressSelection()" id="btn-to-payment">تأكيد العنوان والانتقال للدفع ◀</button>
+                </div>
+            </div>
+            <div class="side-card" id="miniCartSummary2"></div>
+        </div>
+    </div>
+
+    <!-- ================= المرحلة 3: الدفع ================= -->
+    <div class="checkout-step-panel" id="panel-payment">
+        <div class="cart-layout" style="grid-template-columns: 1fr;">
+            <div class="main-card" style="max-width:600px; margin: 0 auto; width:100%;">
+                <h3 id="lbl-payment-title">💳 خيارات الدفع الآمن</h3>
+                <div class="form-group">
+                    <label id="lbl-payment-method">اختر طريقة الدفع المفضلة</label>
+                    <select id="paymentMethod" onchange="togglePaymentGateway()">
+                        <option value="cod">الدفع عند الاستلام (Cash on Delivery)</option>
+                        <option value="card">البطاقة البنكية الوطنية والدولية (Credit Card)</option>
+                    </select>
+                </div>
+                <div id="clickToPayGateway" style="display:none;">
+                    <div class="click-to-pay-container">
+                        <div class="ctp-logo">click to pay</div>
+                        <p style="font-size:13px; color:#555; margin:10px 0 20px 0;">بوابة مشفرة ومؤمنة بالتعاون مع الموزع المالي الرسمي.</p>
+                        <div class="form-group" style="text-align:start;">
+                            <label style="color:#333;">رقم الهاتف المربوط بالبطاقة / البريد الإلكتروني</label>
+                            <input type="text" style="background:#f1f5f9; color:#000; border-color:#cbd5e1;" placeholder="username@domain.com">
+                        </div>
+                    </div>
+                </div>
+                <div style="display:flex; gap:10px; margin-top:20px;">
+                    <button class="btn-cyber" style="background:#334155; color:#fff;" onclick="prevToAddress()">◀ السابق</button>
+                    <button class="btn-cyber" style="background:var(--cyber-amber);" onclick="nextToTracking()" id="btn-confirm-pay">🔒 إتمام الدفع وتوليد الفاتورة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= المرحلة 4: التقرير والاستلام وتفعيل الضمان ================= -->
+    <div class="checkout-step-panel" id="panel-tracking">
+        <div class="main-card" style="max-width:800px; margin:0 auto; width:100%;">
+            <h3 id="lbl-report-title">📦 تقرير فتح العلبة واستلام الطرد</h3>
+            <div class="instruction-box">
+                <strong style="color:var(--cyber-amber); font-size:14px;" id="lbl-inst-header">🚨 شروط تصوير فك التغليف لتفعيل الضمان المعتمد:</strong>
+                <ul class="instruction-list">
+                    <li id="lbl-inst-li1">يجب أن تكون <strong>الإضاءة جيدة والعدسة واضحة</strong> تماماً دون تقطيع.</li>
+                    <li id="lbl-inst-li2">ابدأ التصوير بـ <strong>إظهار بوليصة الشحن والباركود الخاص بالمنصة</strong>.</li>
+                    <li id="lbl-inst-li3">قم بفتح الصندوق وتدوير قطعة الغيار أمام الكاميرا لتأكيد سلامتها الميكانيكية.</li>
+                </ul>
+            </div>
+            <div class="upload-grid">
+                <div class="upload-dropzone">
+                    <div class="icon">📸</div> <span style="font-size:13px;" id="lbl-upload-img">ارفع صورة الطرد الخارجي</span>
+                    <input type="file" id="unboxingImageInput" accept="image/*" onchange="handleFileChange(this, 'img-status')">
+                    <div class="filename" id="img-status"></div>
+                </div>
+                <div class="upload-dropzone">
+                    <div class="icon">🎥</div> <span style="font-size:13px;" id="lbl-upload-vid">ارفع فيديو فتح العلبة (Unboxing)</span>
+                    <input type="file" id="unboxingVideoInput" accept="video/*" onchange="handleFileChange(this, 'vid-status')">
+                    <div class="filename" id="vid-status"></div>
+                </div>
+            </div>
+            <div class="check-question-card">
+                <strong style="font-size:13px; color:#fff;" id="lbl-q1">1. هل يوجد أي أوراق، كروت، أو شهادات ضمان داخل العلبة؟</strong>
+                <div class="check-options-row">
+                    <button class="check-option-btn" id="q1-yes" onclick="selectQuestionOption('q1', 'yes')">نعم، متوفرة بحالة ممتازة</button>
+                    <button class="check-option-btn danger-choice" id="q1-no" onclick="selectQuestionOption('q1', 'no')">لا توجد أي أوراق</button>
+                </div>
+            </div>
+            <div class="check-question-card">
+                <strong style="font-size:13px; color:#fff;" id="lbl-q2">2. هل تحمل العلبة الخارجية أي عيوب، ثقوب، تمزيق أو تلفيات شحن؟</strong>
+                <div class="check-options-row">
+                    <button class="check-option-btn" id="q2-no" onclick="selectQuestionOption('q2', 'no')">سليمة تماماً</button>
+                    <button class="check-option-btn danger-choice" id="q2-yes" onclick="selectQuestionOption('q2', 'yes')">نعم، يوجد تلفيات واضحة</button>
+                </div>
+            </div>
+            <button class="btn-cyber" style="background:var(--cyber-green); margin-top:15px;" onclick="validateAndSubmitReport()" id="btn-submit-report">🚀 تفعيل الضمان وإرسال التقرير</button>
+        </div>
+    </div>
+
+    <!-- ================= المرحلة 5: الضمان النشط والعداد اللحظي ================= -->
+    <div class="checkout-step-panel" id="panel-completed">
+        <div class="main-card" style="max-width:700px; margin: 0 auto; text-align:center;">
+            <div style="font-size:50px; color:var(--cyber-green);">✓</div>
+            <h2 id="lbl-completed-title" style="color:var(--cyber-green); margin-top:5px;">منظومة الضمان نشطة الآن</h2>
+            <p id="lbl-warranty-started" style="color:var(--cyber-amber); font-weight:bold; margin-bottom:10px;">بدأت فترة الضمان الرسمية</p>
+            
+            <div class="countdown-display">
+                <div class="countdown-block"><div class="countdown-num" id="cd-days">365</div><div class="countdown-lbl" id="lbl-cd-days">يوم</div></div>
+                <div class="countdown-block"><div class="countdown-num" id="cd-hours">00</div><div class="countdown-lbl" id="lbl-cd-hours">ساعة</div></div>
+                <div class="countdown-block"><div class="countdown-num" id="cd-mins">00</div><div class="countdown-lbl" id="lbl-cd-mins">دقيقة</div></div>
+                <div class="countdown-block"><div class="countdown-num" id="cd-secs">00</div><div class="countdown-lbl" id="lbl-cd-secs">ثانية</div></div>
+            </div>
+
+            <div style="border-top: 1px dashed var(--border-blue); padding-top:20px; margin-top:20px;">
+                <h4 style="margin: 0 0 10px 0; color:#fff;" id="lbl-playback-header">فيديو التحقق المرسل من قبلك</h4>
+                <div class="media-playback-wrapper"><video id="unboxingPlayback" controls></video></div>
+                <div>
+                    <span style="font-size:13px; color:#94a3b8;" id="lbl-review-status">حالة التوثيق من لجنة المنصة:</span><br>
+                    <div class="verification-badge badge-pending" id="adminStatusBadge">
+                        <span id="badgeIcon">⏳</span> <span id="badgeText">قيد المراجعة الفنية</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="simulator-control-panel">
+                <div class="simulator-title">🎛️ وحدة محاكاة إدارة المنصة لغرض التجربة</div>
+                <div style="display:flex; gap:10px; justify-content:center;">
+                    <button class="btn-cyber" style="background:var(--cyber-green); color:#000; width:auto; font-size:11px;" onclick="simulateAdminReview('verified')">تأكيد ✅</button>
+                    <button class="btn-cyber" style="background:var(--cyber-amber); color:#000; width:auto; font-size:11px;" onclick="simulateAdminReview('pending')">انتظار ⏳</button>
+                    <button class="btn-cyber" style="background:var(--cyber-red); color:#fff; width:auto; font-size:11px;" onclick="simulateAdminReview('unclear')">غير واضح ⚠️</button>
+                </div>
+            </div>
+            <button class="btn-cyber" style="margin-top:25px;" onclick="resetWholeProcess()" id="btn-return-home">العودة للمنصة الرئيسية</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
