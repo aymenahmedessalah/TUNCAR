@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUNCAR | المتجر الرقمي</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="cyber-nav">
+        <div class="nav-brand">TUN<span>CAR</span></div>
+        <div class="nav-links">
+            <a href="index.html">الرئيسية</a>
+            <a href="catalog.html" class="active-nav">المتجر الرقمي</a>
+            <a href="checkout.html">السلة والضمان</a>
+        </div>
+        <button class="btn-cyber" style="width:auto; padding:5px 15px;" onclick="toggleLanguage()">EN / ع</button>
+    </nav>
+
+    <main class="container" style="margin-top: 40px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+            <h2 class="section-title" id="lbl-catalog-title" style="margin:0;">🛒 قطع الغيار الموثقة المتاحة</h2>
+            <div class="cart-badge-btn" onclick="window.location.href='checkout.html'">
+                <span>السلة</span> <strong id="cartGlobalCount">0</strong>
+            </div>
+        </div>
+
+        <!-- شبكة المنتجات -->
+        <div class="products-grid" id="catalogProductsGrid">
+            <!-- سيتم توليد المنتجات ديناميكياً عبر الجافا سكريبت -->
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
